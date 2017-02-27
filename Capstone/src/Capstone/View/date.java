@@ -1,0 +1,52 @@
+package Capstone.View;
+
+import java.util.Calendar;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
+import javax.swing.SwingUtilities;
+import javax.swing.text.DateFormatter;
+
+public class date {
+
+    private void createAndShowGUI() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR, 12); // 24 == 12 PM == 00:00:00
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.AM_PM, Calendar.PM);
+
+        SpinnerDateModel model = new SpinnerDateModel();
+        model.setValue(calendar.getTime());
+
+        JSpinner spinner = new JSpinner(model);
+
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(spinner, "hh:mm:ss:aa");
+        DateFormatter formatter = (DateFormatter)editor.getTextField().getFormatter();
+        formatter.setAllowsInvalid(false); // this makes what you want
+        formatter.setOverwriteMode(true);
+
+        spinner.setEditor(editor);
+
+        JPanel content = new JPanel();
+        content.add(spinner);
+
+        JFrame frame = new JFrame("Demo");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.getContentPane().add(content);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {                
+                new date().createAndShowGUI();
+            }
+        });
+    }    
+}
